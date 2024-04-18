@@ -10,7 +10,7 @@ parameters:
       https://hub.docker.com/r/cimg/node/tags
   postgres_tag:
     type: string
-    default: 16.2
+    default: "16.2"
     description: >
       Choose a specific cimg/postgres image tag:
       https://hub.docker.com/r/cimg/postgres/tags
