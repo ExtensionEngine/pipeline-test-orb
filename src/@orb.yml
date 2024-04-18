@@ -1,13 +1,13 @@
 version: 2.1
 
 description: >
-  Sample orb description
+  This orb contains executor and jobs for perfoming integration and e2e tests.
 # What will your orb allow users to accomplish?
 # Descriptions should be short, simple, and informative.
 
 # This information will be displayed in the orb registry and is not mandatory.
 display:
-  home_url: "https://github.com/ExtensionEngine/pipeline-test-orb"
+  home_url: "https://circleci.com/developer/orbs/orb/studion/test"
   source_url: "https://github.com/ExtensionEngine/pipeline-test-orb"
 # If your orb requires other orbs, you can import them like this. Otherwise remove the "orbs" stanza.
 # orbs:
