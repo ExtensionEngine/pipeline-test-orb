@@ -24,8 +24,10 @@ jobs:
     executor: test/default
     steps:
       - checkout
-      - run: cd sample/apps/demo-nest-server
-      - run: ls -a
+      - run:
+          name: "Run tests"
+          working_directory: sample/apps/demo-nest-server
+          command: ls -a
 
 workflows:
   test-deploy:
