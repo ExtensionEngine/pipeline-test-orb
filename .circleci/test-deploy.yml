@@ -25,12 +25,15 @@ jobs:
     executor: test/default
     steps:
       - checkout
+      - run:
+          name: "Echo current dir"
+          command: pwd
       - core/install_dependencies:
           pkg_manager: pnpm
-          pkg_json_dir: sample/apps/demo-nest-server
+          pkg_json_dir: ~/project/sample/apps/demo-nest-server
       - run:
           name: "Run tests"
-          working_directory: sample/apps/demo-nest-server
+          working_directory: ~/project/sample/apps/demo-nest-server
           command: ls -a
 
 workflows:
