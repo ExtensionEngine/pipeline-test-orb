@@ -1,0 +1,17 @@
+{
+  "name": "pipeline-pnpm-monorepo-demo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "prettier": "@studion/prettier-config",
+  "devDependencies": {
+    "@studion/prettier-config": "^0.1.0",
+    "prettier": "^3.1.0"
+  }
+}
