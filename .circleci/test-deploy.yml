@@ -43,7 +43,7 @@ jobs:
       - run:
           name: "Run integration tests"
           working_directory: ~/project/sample/apps/demo-nest-server
-          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs -I % pnpm test:integration --runTestsByPath %" --split-by=timings --timings-type=name
+          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --runTestsByPath" --split-by=timings --timings-type=name
 workflows:
   test-deploy:
     jobs:
