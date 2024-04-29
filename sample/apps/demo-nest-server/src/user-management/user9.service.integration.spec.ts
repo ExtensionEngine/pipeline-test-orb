@@ -49,7 +49,7 @@ describe('UserService 9', () => {
 
     const dbUser = await em.fork().findOne(User, { email: dto.email });
 
-    expect(dbUser).toHaveProperty('id');
+    expect(dbUser).toHaveProperty('idd');
     expect(dbUser).toMatchObject(dto);
   });
 
