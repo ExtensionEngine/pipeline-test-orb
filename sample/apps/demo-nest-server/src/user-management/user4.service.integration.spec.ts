@@ -7,30 +7,19 @@ import { ConfigModule } from '@nestjs/config';
 import databaseConfig from 'config/database.config';
 import { Role, User } from './user.entity';
 import { UserExistsException } from './exceptions/user-exists.exception';
-import {
-  PostgreSqlContainer,
-  StartedPostgreSqlContainer,
-} from '@testcontainers/postgresql';
 
 describe('UserService 4', () => {
   let module: TestingModule;
   let em: EntityManager;
   let service: UserService;
-  let postgresContainer: StartedPostgreSqlContainer;
 
-  beforeAll(async () => {
-    postgresContainer = await new PostgreSqlContainer().start();
+  beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({ load: [databaseConfig] }),
         DatabaseModule.forRoot({
           allowGlobalContext: true,
           debug: false,
-          host: postgresContainer.getHost(),
-          port: postgresContainer.getPort(),
-          dbName: postgresContainer.getDatabase(),
-          user: postgresContainer.getUsername(),
-          password: postgresContainer.getPassword(),
         }),
         MikroOrmModule.forFeature([User]),
       ],
@@ -40,18 +29,12 @@ describe('UserService 4', () => {
     em = module.get(EntityManager);
     service = module.get(UserService);
     const orm = module.get(MikroORM);
-    await orm.getMigrator().up();
-  });
-
-  beforeEach(async () => {
-    const orm = module.get(MikroORM);
     const generator = orm.getSchemaGenerator();
     await generator.clearDatabase();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await module.close();
-    await postgresContainer.stop();
   });
 
   it('createUser should create a new user 4', async () => {
