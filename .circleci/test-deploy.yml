@@ -46,15 +46,15 @@ jobs:
             corepack prepare pnpm@latest-9 --activate
             pnpm config set store-dir .pnpm-store
       - run:
-          name: "Install dependencies"
+          name: Install dependencies
           working_directory: ~/project/sample/apps/demo-nest-server
           command: pnpm install
       - run:
-          name: "Run migrations"
+          name: Run migrations
           working_directory: ~/project/sample/apps/demo-nest-server
           command: pnpm db:migration:up
       - run:
-          name: "Run integration tests"
+          name: Run integration tests
           working_directory: ~/project/sample/apps/demo-nest-server
           command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --ci  --reporters=jest-junit --runTestsByPath" --split-by=timings
           environment:
