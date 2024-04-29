@@ -45,7 +45,7 @@ jobs:
       - run:
           name: "Run migrations"
           working_directory: ~/project/sample/apps/demo-nest-server
-          command: pnpm db:migrations:up
+          command: pnpm db:migration:up
       - run:
           name: "Run integration tests"
           working_directory: ~/project/sample/apps/demo-nest-server
