@@ -22,7 +22,15 @@ release-filters: &release-filters
 
 jobs:
   integration-test:
-    executor: test/default
+    executor:
+      name: test/default
+      resource_class: medium
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: circleci
+      DB_PASSWORD: circleci_password
+      DB_NAME: circleci_test
     steps:
       - checkout
       - run:
@@ -32,9 +40,13 @@ jobs:
           pkg_manager: pnpm
           pkg_json_dir: ~/project/sample/apps/demo-nest-server
       - run:
-          name: "Run tests"
+          name: "Run migrations"
           working_directory: ~/project/sample/apps/demo-nest-server
-          command: ls -a
+          command: pnpm db:migration:up
+      - run:
+          name: "Run integration tests"
+          working_directory: ~/project/sample/apps/demo-nest-server
+          command: pnpm test:integration
 
 workflows:
   test-deploy:
