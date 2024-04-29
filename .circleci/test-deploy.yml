@@ -24,6 +24,7 @@ jobs:
   integration-test:
     machine:
       image: ubuntu-2204:2023.07.2
+      resource_class: large
     # docker:
     #   - image: cimg/node:lts
     # resource_class: medium
