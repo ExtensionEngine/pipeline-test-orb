@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Run integration tests
           working_directory: ~/project/sample/apps/demo-nest-server
-          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --ci  --reporters=jest-junit --runTestsByPath" --split-by=timings --timings-type=classname
+          command: find ./src -type f -name "*.integration.spec.ts" | sed 's|^\./||' | circleci tests run --command "xargs pnpm test:integration --ci --runInBand --reporters=jest-junit --runTestsByPath" --split-by=timings --timings-type=classname
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
