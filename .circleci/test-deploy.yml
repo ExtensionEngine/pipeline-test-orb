@@ -56,9 +56,12 @@ jobs:
       - run:
           name: "Run integration tests"
           working_directory: ~/project/sample/apps/demo-nest-server
-          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --runTestsByPath" --split-by=timings
+          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --ci --runTestsByPath" --split-by=timings
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
-          path: ~/project/sample/apps/demo-nest-server/junit.xml
+          path: ~/project/sample/apps/demo-nest-server/reports
 workflows:
   test-deploy:
     jobs:
