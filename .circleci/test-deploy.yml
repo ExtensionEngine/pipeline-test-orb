@@ -22,9 +22,11 @@ release-filters: &release-filters
 
 jobs:
   integration-test:
-    executor:
-      name: test/default
-      resource_class: medium
+    machine:
+      image: ubuntu-2204:2023.07.2
+    # docker:
+    #   - image: cimg/node:lts
+    # resource_class: medium
     environment:
       DB_HOST: localhost
       DB_PORT: 5432
@@ -33,16 +35,9 @@ jobs:
       DB_NAME: circleci_test
     steps:
       - checkout
-      - run:
-          name: "Echo current dir"
-          command: pwd
       - core/install_dependencies:
           pkg_manager: pnpm
           pkg_json_dir: ~/project/sample/apps/demo-nest-server
-      - run:
-          name: "Run migrations"
-          working_directory: ~/project/sample/apps/demo-nest-server
-          command: pnpm db:migration:up
       - run:
           name: "Run integration tests"
           working_directory: ~/project/sample/apps/demo-nest-server
