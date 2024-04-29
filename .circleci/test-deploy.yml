@@ -25,10 +25,10 @@ jobs:
     machine:
       image: ubuntu-2204:2023.07.2
     resource_class: medium
-    parallelism: 4
     # docker:
     #   - image: cimg/node:lts
     # resource_class: medium
+    parallelism: 4
     environment:
       DB_HOST: localhost
       DB_PORT: 5432
@@ -43,7 +43,7 @@ jobs:
       - run:
           name: "Run integration tests"
           working_directory: ~/project/sample/apps/demo-nest-server
-          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --runTestsByPath" --split-by=timings --timings-type=name
+          command: find ./src -type f -name "*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --runTestsByPath --" --split-by=timings
 workflows:
   test-deploy:
     jobs:
