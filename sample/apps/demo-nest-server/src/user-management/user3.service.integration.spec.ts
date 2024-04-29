@@ -8,7 +8,7 @@ import databaseConfig from 'config/database.config';
 import { Role, User } from './user.entity';
 import { UserExistsException } from './exceptions/user-exists.exception';
 
-describe('UserService', () => {
+describe('UserService 3', () => {
   let module: TestingModule;
   let em: EntityManager;
   let service: UserService;
@@ -37,7 +37,7 @@ describe('UserService', () => {
     await module.close();
   });
 
-  it('createUser should create a new user', async () => {
+  it('createUser should create a new user 3', async () => {
     const dto = {
       email: 'test@example.org',
       role: Role.USER,
@@ -53,7 +53,7 @@ describe('UserService', () => {
     expect(dbUser).toMatchObject(dto);
   });
 
-  it('createUser should thrown an error if user already exists', async () => {
+  it('createUser should thrown an error if user already exists 3', async () => {
     const dto = {
       email: 'test@example.org',
       role: Role.USER,
