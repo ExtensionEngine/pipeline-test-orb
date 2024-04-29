@@ -2,6 +2,7 @@
   "moduleFileExtensions": ["js", "json", "ts"],
   "moduleDirectories": ["node_modules", "src"],
   "rootDir": ".",
+  "testTimeout": 30000,
   "testEnvironment": "node",
   "testRegex": ".integration.spec.ts$",
   "transform": {

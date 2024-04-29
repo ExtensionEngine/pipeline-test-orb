@@ -12,7 +12,7 @@ import {
   StartedPostgreSqlContainer,
 } from '@testcontainers/postgresql';
 
-describe('UserService 3', () => {
+describe('UserService 5', () => {
   let module: TestingModule;
   let em: EntityManager;
   let service: UserService;
@@ -54,7 +54,7 @@ describe('UserService 3', () => {
     await postgresContainer.stop();
   });
 
-  it('createUser should create a new user 3', async () => {
+  it('createUser should create a new user 5', async () => {
     const dto = {
       email: 'test@example.org',
       role: Role.USER,
@@ -70,7 +70,7 @@ describe('UserService 3', () => {
     expect(dbUser).toMatchObject(dto);
   });
 
-  it('createUser should thrown an error if user already exists 3', async () => {
+  it('createUser should thrown an error if user already exists 5', async () => {
     const dto = {
       email: 'test@example.org',
       role: Role.USER,
