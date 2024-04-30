@@ -3,7 +3,6 @@ orbs:
   # Your orb will be automatically injected here during the pipeline.
   # Reference your orb's jobs and commands below as they will exist when built.
   orb-tools: circleci/orb-tools@12.0
-  core: studion/core@dev:first
   # The orb definition is intentionally not included here. It will be injected into the pipeline.
   test: {}
 
@@ -20,44 +19,16 @@ release-filters: &release-filters
   tags:
     only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
-jobs:
-  integration-test:
-    executor: test/default
-    resource_class: medium
-    parallelism: 4
-    environment:
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: circleci
-      DB_PASSWORD: circleci_password
-      DB_NAME: circleci_test
-    steps:
-      - checkout
-      - core/install_dependencies:
-          pkg_manager: pnpm
-          pkg_json_dir: ~/project/sample-integration
-      - run:
-          name: Run migrations
-          working_directory: ~/project/sample-integration
-          command: pnpm db:migration:up
-      - run:
-          name: Run integration tests
-          working_directory: ~/project/sample-integration
-          command: circleci tests glob "**/*.integration.spec.ts" | circleci tests run --command "xargs pnpm test:integration --ci --runInBand --reporters=jest-junit --runTestsByPath" --split-by=timings --timings-type=file
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/
-            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
-      - store_test_results:
-          path: ~/project/sample-integration/reports
-      - store_artifacts:
-          path: ~/project/sample-integration/reports
 workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       # Test your orb's commands in a custom job and test your orb's jobs directly as a part of this workflow.
-      - integration-test:
+      - test/parallel-integration-test:
           filters: *filters
+          parallelism: 4
+          pkg_manager: pnpm
+          working_directory: ./sample-integration
       # The orb must be re-packed for publishing, and saved to the workspace.
       - orb-tools/pack:
           filters: *release-filters
