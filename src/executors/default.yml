@@ -1,5 +1,5 @@
 description: >
-  A Docker executor using CricleCI's Node.js images optimized for CI.
+  A Docker executor using CricleCI's Node.js and Postgres images optimized for CI.
 
 parameters:
   node_tag:

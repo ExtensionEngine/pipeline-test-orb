@@ -19,21 +19,16 @@ release-filters: &release-filters
   tags:
     only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
-jobs:
-  integration-test:
-    executor: test/default
-    steps:
-      - checkout
-      - run: cd sample/apps/demo-nest-server
-      - run: ls -a
-
 workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       # Test your orb's commands in a custom job and test your orb's jobs directly as a part of this workflow.
-      - integration-test:
+      - test/parallel_integration_test:
           filters: *filters
+          parallelism: 4
+          pkg_manager: pnpm
+          working_directory: ./sample-integration
       # The orb must be re-packed for publishing, and saved to the workspace.
       - orb-tools/pack:
           filters: *release-filters
@@ -44,6 +39,6 @@ workflows:
           # Ensure this job requires all test jobs and the pack job.
           requires:
             - orb-tools/pack
-            - integration-test
+            - test/parallel_integration_test
           context: orb-publishing
           filters: *release-filters

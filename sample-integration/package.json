@@ -4,6 +4,7 @@
   "private": true,
   "description": "",
   "license": "UNLICENSED",
+  "prettier": "@studion/prettier-config",
   "author": "",
   "scripts": {
     "build": "nest build",
@@ -70,6 +71,7 @@
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
+    "@studion/prettier-config": "^0.1.0",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
@@ -81,6 +83,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "jest": "^29.5.0",
     "jest-junit": "^16.0.0",
+    "prettier": "^3.2.5",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",

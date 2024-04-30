@@ -1,0 +1,52 @@
+description: >
+  Run integration tests in parallel across multiple nodes.
+executor: default
+parallelism: << parameters.parallelism >>
+environment:
+  DB_HOST: localhost
+  DB_PORT: 5432
+  DB_USER: circleci
+  DB_PASSWORD: circleci_password
+  DB_NAME: circleci_test
+
+parameters:
+  parallelism:
+    description: How many nodes should testing be split across?
+    type: integer
+    default: 2
+  pkg_manager:
+    type: enum
+    enum: ["npm", "pnpm"]
+    default: "npm"
+    description: Choose Node.js package manager to use.
+  working_directory:
+    type: string
+    default: "."
+    description: >
+      Path to the directory containing package.json file.
+      Not needed when package.json is in the root.
+  migration_up_script:
+    type: string
+    default: "db:migration:up"
+    description: >
+      The package.json script to run migrations.
+steps:
+  - checkout
+  - core/install_dependencies:
+      pkg_manager: <<parameters.pkg_manager>>
+      pkg_json_dir: <<parameters.working_directory>>
+  - core/run_script:
+      pkg_json_dir: <<parameters.working_directory>>
+      pkg_manager: <<parameters.pkg_manager>>
+      script: <<parameters.migration_up_script>>
+  - run:
+      name: Run integration tests
+      working_directory: <<parameters.working_directory>>
+      command: <<include(scripts/run-tests-in-parallel.sh)>>
+      environment:
+        JEST_JUNIT_OUTPUT_DIR: ./reports/
+        JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
+  - store_test_results:
+      path: <<parameters.working_directory>>/reports
+  - store_artifacts:
+      path: <<parameters.working_directory>>/reports
