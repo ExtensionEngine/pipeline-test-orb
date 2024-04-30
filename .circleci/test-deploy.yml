@@ -22,13 +22,8 @@ release-filters: &release-filters
 
 jobs:
   integration-test:
-    # machine:
-    #   image: ubuntu-2204:2023.07.2
-    # docker:
-    #   - image: cimg/node:lts
-    executor:
-      name: test/default
-      resource_class: large
+    executor: test/default
+    resource_class: medium
     parallelism: 4
     environment:
       DB_HOST: localhost
