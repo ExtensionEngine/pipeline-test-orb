@@ -36,6 +36,7 @@ steps:
       pkg_manager: <<parameters.pkg_manager>>
       pkg_json_dir: <<parameters.working_directory>>
   - core/run_script:
+      pkg_json_dir: <<parameters.working_directory>>
       pkg_manager: <<parameters.pkg_manager>>
       script: <<parameters.migration_up_script>>
   - run:
