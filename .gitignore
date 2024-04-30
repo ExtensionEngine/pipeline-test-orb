@@ -2,3 +2,5 @@
 orb.yml
 .DS_Store
 junit.xml
+node_modules
+.env

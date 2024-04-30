@@ -3,7 +3,7 @@ orbs:
   # Your orb will be automatically injected here during the pipeline.
   # Reference your orb's jobs and commands below as they will exist when built.
   orb-tools: circleci/orb-tools@12.0
-  # core: studion/core@dev:first
+  core: studion/core@dev:first
   # The orb definition is intentionally not included here. It will be injected into the pipeline.
   test: {}
 
@@ -29,7 +29,6 @@ jobs:
     executor:
       name: test/default
       resource_class: medium
-    # resource_class: medium
     parallelism: 4
     environment:
       DB_HOST: localhost
@@ -39,31 +38,24 @@ jobs:
       DB_NAME: circleci_test
     steps:
       - checkout
-      - run:
-          name: Install pnpm package manager
-          command: |
-            corepack enable || sudo corepack enable
-            corepack prepare pnpm@latest-9 --activate
-            pnpm config set store-dir .pnpm-store
-      - run:
-          name: Install dependencies
-          working_directory: ~/project/sample/apps/demo-nest-server
-          command: pnpm install
+      - core/install_dependencies:
+          pkg_manager: pnpm
+          pkg_json_dir: ~/project/sample-integration
       - run:
           name: Run migrations
-          working_directory: ~/project/sample/apps/demo-nest-server
+          working_directory: ~/project/sample-integration
           command: pnpm db:migration:up
       - run:
           name: Run integration tests
-          working_directory: ~/project/sample/apps/demo-nest-server
+          working_directory: ~/project/sample-integration
           command: find ./src -type f -name "*.integration.spec.ts" | sed 's|^\./||' | circleci tests run --command "xargs pnpm test:integration --ci --runInBand --reporters=jest-junit --runTestsByPath" --split-by=timings --timings-type=file
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
-          path: ~/project/sample/apps/demo-nest-server/reports
+          path: ~/project/sample-integration/reports
       - store_artifacts:
-          path: ~/project/sample/apps/demo-nest-server/reports
+          path: ~/project/sample-integration/reports
 workflows:
   test-deploy:
     jobs:
