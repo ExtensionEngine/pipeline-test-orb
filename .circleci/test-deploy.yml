@@ -28,7 +28,7 @@ jobs:
     #   - image: cimg/node:lts
     executor:
       name: test/default
-      resource_class: medium
+      resource_class: large
     parallelism: 4
     environment:
       DB_HOST: localhost
