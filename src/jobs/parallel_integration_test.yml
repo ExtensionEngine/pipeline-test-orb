@@ -1,6 +1,6 @@
 description: >
   Run integration tests in parallel across multiple nodes.
-executor: test/default
+executor: default
 parallelism: << parameters.parallelism >>
 environment:
   DB_HOST: localhost
